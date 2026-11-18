@@ -66,8 +66,16 @@ def run(folder, output):
                 raise RuntimeError("monitor failed")
         records = [json.loads(s) for s in output.read_text().splitlines()]
         print(f"Agent A={a}  Agent B={b}")
+        shown = set()
+        sites = (row for row in records if row["type"] == "allocation_site")
+        example_site = max(sites, key=lambda row: (bool(row["frames"]), row["allocated_bytes"]), default=None)
         for row in records:
-            if row["type"] in ("alert", "health") or row.get("event") in ("ssl_write", "ssl_read"):
+            event = row.get("event")
+            if event in ("openat", "execve", "write", "connect"):
+                if event in shown:
+                    continue
+                shown.add(event)
+            if event or row["type"] in ("alert", "health") or row is example_site:
                 print(json.dumps(row, ensure_ascii=False))
         if len(sys.argv) > 1:
             print(f"完整事件与内核栈: {output}")
