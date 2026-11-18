@@ -27,26 +27,19 @@ python3 demo.py trace-01.jsonl
 ```
 ## 项目结构
 ```sh
-.
-├── agent.bpf.o
-├── agentsnoop
 ├── bpf
 │   ├── agent.bpf.c
 │   └── Makefile
 ├── common.mk
-├── core-5.8.log
 ├── demo
 │   ├── demo-agent.c
 │   ├── demo.py
 │   └── Makefile
-├── demo-agent
 ├── demo.py -> demo/demo.py
 ├── include
 │   └── events.h
 ├── Makefile
 ├── README.md
-├── run.jsonl
-├── trace-01.jsonl
 └── user
     ├── Makefile
     ├── monitor.c
