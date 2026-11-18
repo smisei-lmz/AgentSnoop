@@ -13,10 +13,9 @@ make test
 
 **从源码构建的环境要求**
 ```sh
-- **OS**: Ubuntu 22.04+ (内核 ≥ 5.15，需 BTF 支持)
-- **工具链**: clang ≥ 12, llvm, bpftool, Go ≥ 1.21, make
-- **权限**: root（BPF 程序加载需要 `CAP_BPF` / `CAP_SYS_ADMIN`）
-- 给我类似这样的唤醒要求
+- OS: Ubuntu 22.04+ (内核 ≥ 5.15，需 BTF 支持)
+- 工具链: clang ≥ 12, llvm, bpftool, Go ≥ 1.21, make
+- 权限: root（BPF 程序加载需要 `CAP_BPF` / `CAP_SYS_ADMIN`）
 ```
 需要支持 BPF 和内核 BTF 的 Linux 环境、Make、支持 BPF 后端的 Clang、C 编译器，以及 libbpf 1.x、libelf、zlib 和 OpenSSL 3 的开发文件。还需要 Python 3 和 openssl 命令。进入源码根目录后运行 `make`，再以 root 身份运行 `make test`。
 
@@ -67,8 +66,6 @@ python3 demo.py trace-01.jsonl
 - `stacks.c` 在退出时汇总分配字节及尚未观察到释放的字节，通过栈表和 `/proc/kallsyms` 输出内核函数名。统计范围为观测到的 kmalloc/kfree。
 
 监控已有进程时，在本目录运行 `./agentsnoop --pid PID_A --pid PID_B --sensitive /绝对路径`，用 Ctrl-C 停止并输出分配栈。
-
-实测同一份 BPF 对象（SHA-256 `e553499b189dc77485e143e33727fcc7bc2e871ec7113432fffe50315d1acd9c`）在 ARM64 板卡 Linux 6.1.141 和 x86_64 QEMU Linux 5.8.0-63-generic 上运行双 Agent 演示。5.8 虚拟机使用 BTFHub 中与 Ubuntu 内核版本及构建匹配的外部 BTF。板卡保存了 `run.jsonl` 和 `core-5.8.log` 两份记录。
 
 ## 板端运行结果
 
